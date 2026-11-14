@@ -1,6 +1,6 @@
 # Odin-Book
 
-A small Facebook-style social network built for [The Odin Project – Odin-Book](https://www.theodinproject.com/lessons/node-path-javascript-odin-book) lesson (Full Stack JavaScript path, final Node.js project).
+A small Facebook-style social network built for [The Odin Project – Odin-Book](https://www.theodinproject.com/lessons/nodejs-odin-book) lesson (Full Stack JavaScript path, final Node.js project).
 
 Users sign in, send follow requests, write posts, like and comment, and see a feed of their own posts plus posts from the people they follow.
 
