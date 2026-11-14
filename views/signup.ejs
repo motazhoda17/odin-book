@@ -1,0 +1,29 @@
+<%- include('partials/head') %>
+<div class="auth-page">
+  <div class="auth-intro">
+    <h1>📘 Odin-Book</h1>
+    <p>Create an account to start posting.</p>
+  </div>
+  <form action="/signup" method="post" class="card auth-card stack">
+    <h2>Sign up</h2>
+    <%- include('partials/errors') %>
+    <label>Username
+      <input name="username" value="<%= values.username || '' %>" autocomplete="username" pattern="[A-Za-z0-9_]{3,20}" title="3-20 letters, numbers or underscores" required />
+    </label>
+    <label>Name
+      <input name="displayName" value="<%= values.displayName || '' %>" maxlength="50" required />
+    </label>
+    <label>Email <span class="muted">(optional – used for your Gravatar picture)</span>
+      <input name="email" type="email" value="<%= values.email || '' %>" autocomplete="email" />
+    </label>
+    <label>Password
+      <input name="password" type="password" minlength="6" autocomplete="new-password" required />
+    </label>
+    <label>Confirm password
+      <input name="confirmPassword" type="password" autocomplete="new-password" required />
+    </label>
+    <button class="btn">Create account</button>
+    <p class="muted center">Already have an account? <a href="/login">Log in</a></p>
+  </form>
+</div>
+<%- include('partials/foot') %>

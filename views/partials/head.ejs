@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= title %> · Odin-Book</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <% if (currentUser) { %>
+      <header class="topbar">
+        <a href="/" class="logo">📘 <span class="logo-text">Odin-Book</span></a>
+        <nav>
+          <a href="/" class="<%= currentPath === '/' || currentPath.startsWith('/?') ? 'active' : '' %>">Home</a>
+          <a href="/users" class="<%= currentPath === '/users' ? 'active' : '' %>">People</a>
+          <a href="/requests" class="<%= currentPath.startsWith('/requests') ? 'active' : '' %>">
+            Requests<% if (pendingRequestCount > 0) { %> <span class="badge"><%= pendingRequestCount %></span><% } %>
+          </a>
+          <a href="/users/<%= currentUser.id %>" class="nav-me <%= currentPath === '/users/' + currentUser.id ? 'active' : '' %>">
+            <img class="avatar avatar-sm" src="<%= avatarFor(currentUser, 64) %>" alt="" />
+            <span class="nav-name"><%= currentUser.displayName %></span>
+          </a>
+        </nav>
+        <form action="/logout" method="post">
+          <button class="btn-link">Log out</button>
+        </form>
+      </header>
+    <% } %>
+    <main class="container">
+      <% if (flash) { %>
+        <p class="flash flash-<%= flash.type %>" role="status"><%= flash.message %></p>
+      <% } %>

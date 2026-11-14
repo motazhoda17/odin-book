@@ -1,0 +1,25 @@
+<%- include('partials/head') %>
+<div class="auth-page">
+  <div class="auth-intro">
+    <h1>📘 Odin-Book</h1>
+    <p>Share posts, follow friends and see what they're up to.</p>
+  </div>
+  <div class="card auth-card">
+    <form action="/login" method="post" class="stack">
+      <h2>Log in</h2>
+      <%- include('partials/errors') %>
+      <label>Username
+        <input name="username" value="<%= values.username || '' %>" autocomplete="username" required autofocus />
+      </label>
+      <label>Password
+        <input name="password" type="password" autocomplete="current-password" required />
+      </label>
+      <button class="btn">Log in</button>
+    </form>
+    <form action="/login/guest" method="post">
+      <button class="btn btn-secondary btn-block">Continue as guest</button>
+    </form>
+    <p class="muted center">New here? <a href="/signup">Create an account</a></p>
+  </div>
+</div>
+<%- include('partials/foot') %>
