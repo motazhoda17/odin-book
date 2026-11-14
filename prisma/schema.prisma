@@ -1,0 +1,105 @@
+// Prisma schema for Odin-Book.
+// After editing, run `npx prisma migrate dev --name <what-changed>`.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+// The connection URL lives in prisma.config.js (Prisma 7 style).
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  passwordHash String
+  displayName  String
+  // Only used to build a Gravatar picture; never shown to other users.
+  email        String   @default("")
+  bio          String   @default("")
+  // Optional custom photo URL. When empty we fall back to Gravatar.
+  avatarUrl    String   @default("")
+  createdAt    DateTime @default(now())
+
+  posts    Post[]
+  comments Comment[]
+  likes    Like[]
+
+  // A user appears on both sides of the Follow table, so each side
+  // needs its own relation name.
+  following Follow[] @relation("follower")
+  followers Follow[] @relation("following")
+}
+
+enum FollowStatus {
+  PENDING
+  ACCEPTED
+}
+
+// "followerId wants to follow followingId".
+// Starts as PENDING (a follow request) until the other user accepts it.
+model Follow {
+  followerId  Int
+  followingId Int
+  status      FollowStatus @default(PENDING)
+  createdAt   DateTime     @default(now())
+
+  follower  User @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@id([followerId, followingId])
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  content   String
+  // Extra credit: posts can have an image (by URL).
+  imageUrl  String   @default("")
+  createdAt DateTime @default(now())
+  authorId  Int
+
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments Comment[]
+  likes    Like[]
+
+  @@index([authorId, createdAt])
+}
+
+// One row per (user, post) - the composite id stops double-liking.
+model Like {
+  userId    Int
+  postId    Int
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@id([userId, postId])
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  authorId  Int
+  postId    Int
+
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt])
+}
+
+// Login sessions, stored by connect-pg-simple.
+// The table layout must match what connect-pg-simple expects, so we
+// map this model to its default table name "session".
+model Session {
+  sid    String   @id @db.VarChar
+  sess   Json     @db.Json
+  expire DateTime @db.Timestamp(6)
+
+  @@index([expire], map: "IDX_session_expire")
+  @@map("session")
+}
