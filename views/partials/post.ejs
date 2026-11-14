@@ -1,0 +1,52 @@
+<%# One post card. Expects: post (with author, comments, likeCount, likedByMe) %>
+<article class="card post" id="post-<%= post.id %>">
+  <header class="post-header">
+    <a href="/users/<%= post.author.id %>">
+      <img class="avatar" src="<%= avatarFor(post.author, 96) %>" alt="" />
+    </a>
+    <div>
+      <a href="/users/<%= post.author.id %>" class="author-name"><%= post.author.displayName %></a>
+      <span class="muted">@<%= post.author.username %> · <a href="/posts/<%= post.id %>" class="muted"><%= timeAgo(post.createdAt) %></a></span>
+    </div>
+    <% if (post.author.id === currentUser.id) { %>
+      <form action="/posts/<%= post.id %>/delete" method="post" class="post-delete">
+        <input type="hidden" name="returnTo" value="<%= currentPath %>" />
+        <button class="btn-link muted" onclick="return confirm('Delete this post?')">Delete</button>
+      </form>
+    <% } %>
+  </header>
+
+  <p class="post-content"><%= post.content %></p>
+  <% if (post.imageUrl) { %>
+    <img class="post-image" src="<%= post.imageUrl %>" alt="Image attached to the post" loading="lazy" />
+  <% } %>
+
+  <div class="post-actions">
+    <form action="/posts/<%= post.id %>/like" method="post">
+      <input type="hidden" name="returnTo" value="<%= currentPath %>" />
+      <button class="like-btn <%= post.likedByMe ? 'liked' : '' %>" aria-pressed="<%= post.likedByMe %>">
+        <%= post.likedByMe ? '♥' : '♡' %> <%= post.likeCount %> <%= post.likeCount === 1 ? 'like' : 'likes' %>
+      </button>
+    </form>
+    <span class="muted"><%= post.comments.length %> <%= post.comments.length === 1 ? 'comment' : 'comments' %></span>
+  </div>
+
+  <ul class="comments">
+    <% post.comments.forEach((comment) => { %>
+      <li class="comment">
+        <img class="avatar avatar-sm" src="<%= avatarFor(comment.author, 64) %>" alt="" />
+        <div class="comment-body">
+          <a href="/users/<%= comment.author.id %>" class="author-name"><%= comment.author.displayName %></a>
+          <span class="muted small"><%= timeAgo(comment.createdAt) %></span>
+          <p><%= comment.content %></p>
+        </div>
+      </li>
+    <% }) %>
+  </ul>
+
+  <form action="/posts/<%= post.id %>/comments" method="post" class="comment-form">
+    <input type="hidden" name="returnTo" value="<%= currentPath %>" />
+    <input name="content" placeholder="Write a comment…" aria-label="Write a comment" maxlength="500" required />
+    <button class="btn btn-small">Comment</button>
+  </form>
+</article>

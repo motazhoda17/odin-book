@@ -1,0 +1,28 @@
+<%- include('partials/head') %>
+<form action="/posts" method="post" class="card composer stack">
+  <input type="hidden" name="returnTo" value="<%= currentPath %>" />
+  <div class="composer-row">
+    <img class="avatar" src="<%= avatarFor(currentUser, 96) %>" alt="" />
+    <textarea name="content" rows="3" maxlength="1000" placeholder="What's on your mind, <%= currentUser.displayName.split(' ')[0] %>?" aria-label="Post content" required></textarea>
+  </div>
+  <div class="composer-row">
+    <input name="imageUrl" type="url" placeholder="Image URL (optional)" aria-label="Image URL" />
+    <button class="btn">Post</button>
+  </div>
+</form>
+
+<nav class="tabs">
+  <a href="/" class="<%= view === 'following' ? 'active' : '' %>">Following</a>
+  <a href="/?view=everyone" class="<%= view === 'everyone' ? 'active' : '' %>">Everyone</a>
+</nav>
+
+<% if (posts.length === 0) { %>
+  <div class="card empty">
+    <p>Your feed is empty.</p>
+    <p class="muted">Write your first post above, or <a href="/users">follow some people</a> to see their posts here.</p>
+  </div>
+<% } %>
+<% posts.forEach((post) => { %>
+  <%- include('partials/post', { post }) %>
+<% }) %>
+<%- include('partials/foot') %>
