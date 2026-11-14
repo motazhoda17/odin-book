@@ -1,0 +1,44 @@
+<%- include('partials/head') %>
+<h1>Follow requests</h1>
+
+<h2 class="section-title">Waiting for you</h2>
+<% if (incoming.length === 0) { %>
+  <p class="card empty muted">No new requests.</p>
+<% } else { %>
+  <ul class="card user-list">
+    <% incoming.forEach(({ follower }) => { %>
+      <li class="user-row">
+        <a href="/users/<%= follower.id %>"><img class="avatar" src="<%= avatarFor(follower, 96) %>" alt="" /></a>
+        <div class="user-row-text">
+          <a href="/users/<%= follower.id %>" class="author-name"><%= follower.displayName %></a>
+          <span class="muted small">@<%= follower.username %> wants to follow you</span>
+        </div>
+        <form action="/requests/<%= follower.id %>/accept" method="post">
+          <button class="btn btn-small">Accept</button>
+        </form>
+        <form action="/requests/<%= follower.id %>/decline" method="post">
+          <button class="btn btn-small btn-secondary">Decline</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<h2 class="section-title">Sent by you</h2>
+<% if (outgoing.length === 0) { %>
+  <p class="card empty muted">You have no pending requests.</p>
+<% } else { %>
+  <ul class="card user-list">
+    <% outgoing.forEach(({ following }) => { %>
+      <li class="user-row">
+        <a href="/users/<%= following.id %>"><img class="avatar" src="<%= avatarFor(following, 96) %>" alt="" /></a>
+        <div class="user-row-text">
+          <a href="/users/<%= following.id %>" class="author-name"><%= following.displayName %></a>
+          <span class="muted small">Waiting for @<%= following.username %> to accept</span>
+        </div>
+        <%- include('partials/followButton', { user: following, relationship: 'requested' }) %>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
+<%- include('partials/foot') %>

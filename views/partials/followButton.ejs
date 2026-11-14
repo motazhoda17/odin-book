@@ -1,0 +1,22 @@
+<%# Follow / requested / following / accept button. Expects: user, relationship %>
+<% if (relationship === 'following') { %>
+  <form action="/users/<%= user.id %>/unfollow" method="post">
+    <input type="hidden" name="returnTo" value="<%= currentPath %>" />
+    <button class="btn btn-small btn-secondary" title="Click to unfollow">Following ✓</button>
+  </form>
+<% } else if (relationship === 'requested') { %>
+  <form action="/users/<%= user.id %>/unfollow" method="post">
+    <input type="hidden" name="returnTo" value="<%= currentPath %>" />
+    <button class="btn btn-small btn-secondary" title="Click to cancel your request">Requested</button>
+  </form>
+<% } else if (relationship === 'incoming') { %>
+  <form action="/requests/<%= user.id %>/accept" method="post">
+    <input type="hidden" name="returnTo" value="<%= currentPath %>" />
+    <button class="btn btn-small">Accept request</button>
+  </form>
+<% } else { %>
+  <form action="/users/<%= user.id %>/follow" method="post">
+    <input type="hidden" name="returnTo" value="<%= currentPath %>" />
+    <button class="btn btn-small">Follow</button>
+  </form>
+<% } %>

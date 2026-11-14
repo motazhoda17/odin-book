@@ -1,0 +1,16 @@
+<%- include('partials/head') %>
+<h1>People</h1>
+<p class="muted">Send a follow request to see someone's posts in your feed.</p>
+<ul class="card user-list">
+  <% users.forEach((user) => { %>
+    <li class="user-row">
+      <a href="/users/<%= user.id %>"><img class="avatar" src="<%= avatarFor(user, 96) %>" alt="" /></a>
+      <div class="user-row-text">
+        <a href="/users/<%= user.id %>" class="author-name"><%= user.displayName %></a>
+        <span class="muted small">@<%= user.username %> · <%= user._count.posts %> <%= user._count.posts === 1 ? 'post' : 'posts' %></span>
+      </div>
+      <%- include('partials/followButton', { user, relationship: user.relationship }) %>
+    </li>
+  <% }) %>
+</ul>
+<%- include('partials/foot') %>

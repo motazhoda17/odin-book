@@ -1,0 +1,28 @@
+<%- include('partials/head') %>
+<section class="card profile">
+  <img class="avatar avatar-lg" src="<%= avatarFor(profile, 240) %>" alt="<%= profile.displayName %>'s profile photo" />
+  <div class="profile-info">
+    <h1><%= profile.displayName %></h1>
+    <p class="muted">@<%= profile.username %> · Joined <%= profile.createdAt.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) %></p>
+    <% if (profile.bio) { %><p><%= profile.bio %></p><% } %>
+    <p class="stats">
+      <strong><%= posts.length %></strong> posts ·
+      <strong><%= followerCount %></strong> followers ·
+      <strong><%= followingCount %></strong> following
+    </p>
+    <% if (isMe) { %>
+      <a href="/settings" class="btn btn-small btn-secondary">Edit profile</a>
+    <% } else { %>
+      <%- include('partials/followButton', { user: profile, relationship }) %>
+    <% } %>
+  </div>
+</section>
+
+<h2 class="section-title">Posts</h2>
+<% if (posts.length === 0) { %>
+  <p class="card empty muted">No posts yet.</p>
+<% } %>
+<% posts.forEach((post) => { %>
+  <%- include('partials/post', { post }) %>
+<% }) %>
+<%- include('partials/foot') %>
