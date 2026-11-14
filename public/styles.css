@@ -1,0 +1,427 @@
+/* ---------- Design tokens ---------- */
+:root {
+  --bg: #f0f2f5;
+  --card: #ffffff;
+  --text: #1c1e21;
+  --muted: #65676b;
+  --border: #dadde1;
+  --brand: #1877f2;
+  --brand-dark: #1462c9;
+  --brand-soft: #e7f0fd;
+  --like: #e0245e;
+  --danger: #b42318;
+  --success: #17703a;
+  --radius: 10px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.45;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin: 0 0 0.25rem;
+}
+h2 {
+  font-size: 1.15rem;
+  margin: 0 0 0.25rem;
+}
+
+a {
+  color: var(--brand);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+}
+input,
+textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+}
+input:focus,
+textarea:focus {
+  outline: 2px solid var(--brand);
+  outline-offset: -1px;
+}
+textarea {
+  resize: vertical;
+}
+label {
+  display: grid;
+  gap: 0.3rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+form {
+  margin: 0;
+}
+
+/* ---------- Helpers ---------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.stack {
+  display: grid;
+  gap: 0.9rem;
+}
+.muted {
+  color: var(--muted);
+  font-weight: normal;
+}
+.small {
+  font-size: 0.8rem;
+}
+.center {
+  text-align: center;
+}
+.empty {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+.section-title {
+  margin: 1.5rem 0 0.75rem;
+}
+
+.btn {
+  display: inline-block;
+  border: none;
+  border-radius: 8px;
+  background: var(--brand);
+  color: #fff;
+  padding: 0.55rem 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+}
+.btn:hover {
+  background: var(--brand-dark);
+  text-decoration: none;
+}
+.btn-secondary {
+  background: #e4e6eb;
+  color: var(--text);
+}
+.btn-secondary:hover {
+  background: #d8dadf;
+}
+.btn-small {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.85rem;
+}
+.btn-block {
+  width: 100%;
+}
+.btn-link {
+  white-space: nowrap;
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #d8dadf;
+  flex: none;
+  display: block;
+}
+.avatar-sm {
+  width: 30px;
+  height: 30px;
+}
+.avatar-lg {
+  width: 120px;
+  height: 120px;
+}
+
+.errors {
+  color: var(--danger);
+  background: #fdecea;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem 0.6rem 1.8rem;
+  list-style: disc;
+  margin: 0;
+}
+.flash {
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  margin: 0 0 1rem;
+}
+.flash-success {
+  background: #e3f6ea;
+  color: var(--success);
+}
+.flash-error {
+  background: #fdecea;
+  color: var(--danger);
+}
+
+/* ---------- Top bar ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--brand);
+}
+.topbar nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+.topbar nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 8px;
+  color: var(--text);
+  font-weight: 600;
+}
+.topbar nav a:hover {
+  background: #f0f2f5;
+  text-decoration: none;
+}
+.topbar nav a.active {
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+.badge {
+  background: var(--like);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0 0.45rem;
+  font-size: 0.75rem;
+}
+
+.container {
+  max-width: 640px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+}
+
+/* ---------- Login / sign-up ---------- */
+.auth-page {
+  min-height: 85vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 2rem;
+}
+.auth-intro h1 {
+  color: var(--brand);
+  font-size: 2.4rem;
+}
+.auth-intro p {
+  font-size: 1.2rem;
+}
+.auth-card {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 8%);
+}
+
+/* ---------- Feed & posts ---------- */
+.composer-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.tabs a {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.tabs a.active {
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+.post-header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+.post-header > div {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+.author-name {
+  color: var(--text);
+  font-weight: 700;
+}
+.post-content {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 0.75rem 0;
+}
+.post-image {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+.post-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.like-btn {
+  background: none;
+  border: none;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--muted);
+}
+.like-btn:hover {
+  background: #f0f2f5;
+}
+.like-btn.liked {
+  color: var(--like);
+}
+.comments {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+.comment {
+  display: flex;
+  gap: 0.5rem;
+}
+.comment-body {
+  background: #f0f2f5;
+  border-radius: 12px;
+  padding: 0.4rem 0.75rem;
+  min-width: 0;
+}
+.comment-body p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.comment-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ---------- People & profile ---------- */
+.user-list {
+  padding: 0 1rem;
+}
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.user-row:last-child {
+  border-bottom: none;
+}
+.user-row-text {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+.profile {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+.profile-info p {
+  margin: 0.25rem 0 0.6rem;
+}
+.settings-preview {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 640px) {
+  .topbar {
+    gap: 0.4rem;
+    padding: 0.5rem;
+  }
+  .logo-text {
+    display: none;
+  }
+  .topbar nav a {
+    padding: 0.4rem;
+  }
+  .nav-name {
+    display: none;
+  }
+  .container {
+    margin-top: 1rem;
+    padding: 0 0.6rem;
+  }
+  .auth-page {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    gap: 1rem;
+  }
+  .profile {
+    flex-direction: column;
+    text-align: center;
+  }
+  .composer-row .avatar {
+    display: none;
+  }
+}
