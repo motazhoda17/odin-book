@@ -1,0 +1,26 @@
+<%- include('partials/head') %>
+<form action="/settings" method="post" class="card stack settings">
+  <h1>Edit profile</h1>
+  <%- include('partials/errors') %>
+  <div class="settings-preview">
+    <img class="avatar avatar-lg" src="<%= avatarFor({ ...currentUser, ...values }, 240) %>" alt="Current profile photo" />
+    <p class="muted small">
+      Your photo comes from <a href="https://gravatar.com" target="_blank" rel="noreferrer">Gravatar</a>
+      using your email. Paste an image URL below to use a different photo.
+    </p>
+  </div>
+  <label>Name
+    <input name="displayName" value="<%= values.displayName %>" maxlength="50" required />
+  </label>
+  <label>Bio
+    <textarea name="bio" rows="3" maxlength="300"><%= values.bio %></textarea>
+  </label>
+  <label>Email <span class="muted">(private – only used for Gravatar)</span>
+    <input name="email" type="email" value="<%= values.email %>" />
+  </label>
+  <label>Profile photo URL <span class="muted">(optional)</span>
+    <input name="avatarUrl" type="url" value="<%= values.avatarUrl %>" placeholder="https://example.com/me.jpg" />
+  </label>
+  <button class="btn">Save</button>
+</form>
+<%- include('partials/foot') %>
